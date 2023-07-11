@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UserTableSeeder::class,
+            TypesTableSeeder::class,
             PostsTableSeeder::class
         ]);
     }

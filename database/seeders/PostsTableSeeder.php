@@ -19,6 +19,7 @@ class PostsTableSeeder extends Seeder
         for ($i = 0; $i < 50; $i++) {
 
             Post::create([
+                'type_id'       => rand(1, 6),
                 'title'         => $faker->words(rand(2, 10), true),
                 'url_image'     => 'https://picsum.photos/id/' . rand(1, 270) . '/500/400',
                 'content'       => $faker->paragraph(rand(2, 20), true),

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Post;
+use App\Models\Type;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class PostController extends Controller
 {
@@ -27,7 +28,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $types = Type::all();
+        return view('admin.posts.create',  compact('types'));
     }
 
     /**
@@ -42,8 +44,9 @@ class PostController extends Controller
         $request->validate(
             [
                 'title'         => 'required|string|min:5|max:100',
-                'content'       => 'required|string',
+                'type_id'       => 'required|integer|exists:types,id',
                 'url_image'     => 'required|url|max:200',
+                'content'       => 'required|string',
             ],
             // custom error message
             // [
@@ -57,9 +60,10 @@ class PostController extends Controller
 
         // salvare i dati in db se validi
         $newPost = new Post();
-        $newPost->title = $data['title'];
-        $newPost->content = $data['content'];
-        $newPost->url_image = $data['url_image'];
+        $newPost->title         = $data['title'];
+        $newPost->type_id       = $data['type_id'];
+        $newPost->content       = $data['content'];
+        $newPost->url_image     = $data['url_image'];
         $newPost->save();
 
         // returnare in una rotta di tipo get
@@ -85,7 +89,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('admin.posts.edit', compact('post'));
+        $types = Type::all();
+        return view('admin.posts.edit', compact('post', 'types'));
     }
 
     /**
@@ -101,6 +106,7 @@ class PostController extends Controller
         $request->validate(
             [
                 'title'         => 'required|string|min:5|max:100',
+                'type_id'       => 'required|integer|exists:types,id',
                 'content'       => 'required|string',
                 'url_image'     => 'required|url|max:200',
             ],
@@ -114,9 +120,10 @@ class PostController extends Controller
         $data = $request->all();
 
         // aggiornare i dati nel db se validi
-        $post->title     = $data['title'];
-        $post->url_image = $data['url_image'];
-        $post->content   = $data['content'];
+        $post->title        = $data['title'];
+        $post->type_id      = $data['type_id'];
+        $post->url_image    = $data['url_image'];
+        $post->content      = $data['content'];
         $post->update();
 
         // ridirezionare su una rotta di tipo get
