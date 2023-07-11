@@ -3,6 +3,7 @@
 @section('title', 'Show')
 
 @section('main') 
+
     <div class="container">
         <h1>{{ $post->title }}</h1>
         <h3>Type: {{ $post->type->name }}</h3>
