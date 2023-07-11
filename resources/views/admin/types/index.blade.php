@@ -9,36 +9,13 @@
         <h1>TYPES</h1>
 
             {{-- conferma delete --}}
-            {{-- @if (session('harddelete_success'))
-                @php $type = session('harddelete_success') @endphp
+            @if (session('delete_success'))
+                @php $type = session('delete_success') @endphp
                 <div class="alert alert-danger m-0 mb-3">
-                    "{{ $type->title }}" Permanently Deleted
+                    "{{ $type->name }}" Permanently Deleted
                 </div>
-            @endif --}}
+            @endif
 
-            {{-- conferma delete --}}
-            {{-- @if (session('softdelete_success'))
-                @php $type = session('softdelete_success') @endphp
-                <div class="alert alert-danger m-0 mb-3">
-                    "{{ $type->title }}" Soft Deleted
-                    <form
-                        action="{{ route("admin.types.restore", ['type' => $type]) }}"
-                        method="type"
-                        class="d-inline-block restore-btn"
-                    >
-                        @csrf
-                        <button class="btn btn-warning">Restore</button>
-                    </form>
-                </div>
-            @endif --}}
-
-            {{-- conferma restore --}}
-            {{-- @if (session('restore_success'))
-                @php $type = session('restore_success') @endphp
-                <div class="alert alert-success">
-                    "{{ $type->title }}" Restored
-                </div>
-            @endif --}}
 
         <table class="table table-striped">
             <thead>
@@ -56,16 +33,10 @@
                         <td>
                             <a class="btn btn-primary" href="{{ route('admin.types.show', ['type' => $type->id]) }}">View</a>
                             <a class="btn btn-warning" href="{{ route('admin.types.edit', ['type' => $type->id]) }}">Edit</a>
-                            <!-- Button soft delete -->
-                            <form
-                                action="{{ route('admin.types.destroy', ['type' => $type->id]) }}"
-                                method="type"
-                                class="d-inline-block"
-                            >
-                                @csrf
-                                @method('delete')
-                                <button class="btn btn-danger">Delete</button>
-                            </form>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-danger myModal" data-bs-toggle="modal" data-bs-target="#myInput" data-id="{{ $type->id }}">
+                                <i class="bi bi-trash3"></i>
+                            </button>
                         </td>
                     </tr>
                 @endforeach
@@ -81,12 +52,38 @@
         <div>
             {{-- Add New type --}}
             <a class="btn btn-primary" href="{{ route('admin.types.create') }}">Add new type</a>
+        </div>
 
-            {{-- Trash Can --}}
-            {{-- <a class="btn btn-warning" href="{{ route('admin.types.trashed') }}">
-                Trash Can
-                <i class="bi bi-trash3"></i>
-            </a> --}}
+        <!-- Modal -->
+        <div class="modal fade w-100" id="myInput" tabindex="-1" aria-labelledby="myInput" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Are you sure?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        This will permanently delete it!
+                    </div>
+                    <div class="modal-footer">
+                    
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+
+                        <form
+                            action="{{ route("admin.types.destroy", ['type' => '***']) }}"
+                            {{-- action="http://localhost:8000/admin/types/0/destroy" --}}
+                            method="POST"
+                            class="d-inline-block"
+                            id="myForm"
+                        >
+                            @csrf
+                            @method('delete')
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
+                        
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>

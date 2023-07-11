@@ -6,12 +6,12 @@
 
     <div class="container">
 
-        <h2>Type: {{ $type->name }}</h2>
-        <h3>Description: {{ $type->description }}</h3>
+        <h1>Type: {{ $type->name }}</h1>
+        <h2>Description: {{ $type->description }}</h2>
 
         <hr>
 
-        <h1>Post whit this Type</h1>
+        <h2>Post whit this Type</h2>
 
         <ul>
             @foreach ($type->posts as $post)
@@ -19,7 +19,9 @@
             @endforeach
         </ul>
 
-        <a class="btn btn-secondary" href="/admin/types">Back</a>
+        <a class="btn btn-secondary" href="/admin/types">Type Index</a>
+        <a class="btn btn-secondary" href="/admin/posts">Post Index</a>
+
     </div>
 
 @endsection

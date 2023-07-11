@@ -15,7 +15,7 @@ class TypeController extends Controller
      */
     public function index()
     {
-        $types = Type::paginate(6);
+        $types = Type::paginate(5);
         return view('admin.types.index', compact('types'));
     }
 
@@ -26,7 +26,7 @@ class TypeController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.types.create');
     }
 
     /**
@@ -37,7 +37,25 @@ class TypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // validazione
+        $request->validate(
+            [
+                'name'          => 'required|string|max:20',
+                'description'   => 'required|string|max:200',
+            ]
+        );
+
+        // prendo i dati dalla create page
+        $data = $request->all();
+
+        // salvare i dati in db se validi
+        $newType = new Type();
+        $newType->name          = $data['name'];
+        $newType->description   = $data['description'];
+        $newType->save();
+
+        // returnare in una rotta di tipo get
+        return to_route('admin.types.show', ['type' => $newType]);
     }
 
     /**
@@ -59,7 +77,7 @@ class TypeController extends Controller
      */
     public function edit(Type $type)
     {
-        //
+        return view('admin.types.edit', compact('type'));
     }
 
     /**
@@ -71,7 +89,23 @@ class TypeController extends Controller
      */
     public function update(Request $request, Type $type)
     {
-        //
+        // validazione
+        $request->validate(
+            [
+                'name'          => 'required|string|max:20',
+                'description'   => 'required|string|max:200',
+            ]
+        );
+
+        $data = $request->all();
+
+        // aggiornare i dati nel db se validi
+        $type->name         = $data['name'];
+        $type->description  = $data['description'];
+        $type->update();
+
+        // ridirezionare su una rotta di tipo get
+        return to_route('admin.types.show', ['type' => $type]);
     }
 
     /**
@@ -82,6 +116,7 @@ class TypeController extends Controller
      */
     public function destroy(Type $type)
     {
-        //
+        $type->delete();
+        return to_route('admin.types.index')->with('delete_success', $type);
     }
 }

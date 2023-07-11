@@ -11,7 +11,8 @@
         <p>{{ $post->content }}</p>
 
 
-        <a class="btn btn-secondary" href="/admin/posts">Back</a>
+        <a class="btn btn-secondary" href="/admin/posts">Post Index</a>
+        <a class="btn btn-secondary" href="/admin/types">Type Index</a>
     </div>
 
 @endsection

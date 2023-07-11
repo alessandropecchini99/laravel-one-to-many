@@ -25,10 +25,12 @@ Route::middleware(['auth', 'verified'])
     ->prefix('admin')
     ->group(function () {
         Route::get('/',                             [AdminPageController::class, 'dashboard'])->name('dashboard');
+        // ------- POSTS ROUTES ----------
         Route::get('/posts/trashed',                [PostController::class, 'trashed'])->name('posts.trashed');
         Route::post('/posts/{post}/restore',        [PostController::class, 'restore'])->name('posts.restore');
         Route::delete('/posts/{post}/harddelete',   [PostController::class, 'harddelete'])->name('posts.harddelete');
         Route::resource('posts', PostController::class);
+        // ------- TYPES ROUTES ----------
         Route::resource('types', TypeController::class);
     });
 

@@ -15,10 +15,10 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Image</th>
-                    <th scope="col">Actions</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
